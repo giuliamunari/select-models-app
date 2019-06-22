@@ -32,18 +32,16 @@ const data = [
 ]
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  showOptions = (data) => data.map((model, index) => <option value={model.name} key={index} id={index}>{model.name} ({model.year})</option>)
+  showOptions = data => data.map((model, index) => <option value={model.name} key={index} id={index}>{model.name} ({model.year})</option>)
 
-  updateSelection = (event) => {
-    this.setState({ name: event.target.value });
-  }
-  handleSubmit = (event) => event.preventDefault()
+  updateSelection = event => this.setState({ name: event.target.value });
+  
+  handleSubmit = event => event.preventDefault()
 
   buttonCLick = () => this.props.addModel(this.state, data)
 
@@ -77,4 +75,4 @@ const mapStateToProps = (state) => {
   return { models: state.models }
 }
 
-export default connect(mapStateToProps, { addModel })(App);
+export default connect(mapStateToProps, { addModel })( App );
