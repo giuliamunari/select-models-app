@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {addModel} from './actions/addModel'
+import { addModel } from './actions/addModel';
 import './App.css';
+import ModelDetails from './components/ModelDetails';
 
 const data = [
   {
@@ -36,26 +37,29 @@ class App extends Component {
     super(props);
     this.state = {};
   }
-  
 
   showOptions = (data) => data.map((model, index) => <option value={model.name} key={index} id={index}>{model.name} ({model.year})</option>)
 
   updateSelection = (event) => {
-    this.setState({ name: event.target.value});
+    this.setState({ name: event.target.value });
   }
   handleSubmit = (event) => event.preventDefault()
 
-  buttonCLick = (event) => {
-    this.props.addModel(this.state, data)
-  }
-    
-  
+  buttonCLick = () => this.props.addModel(this.state, data)
 
   render() {
-   
     return (
       <div className="App">
         <main>
+          {this.props.models.map((model, index) =>
+            <ModelDetails
+              name={model.name}
+              manufacturer={model.manufacturer}
+              year={model.year}
+              origin={model.origin}
+              key={index} 
+            />
+          )}
           <form id='selectModels' onSubmit={this.handleSubmit}>
             <select value={this.state.value} onChange={this.updateSelection}>
               <option value="">-- pick a model --</option>
@@ -69,10 +73,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) =>{
-  return {
-    ...state.models
-  }
+const mapStateToProps = (state) => {
+  return { models: state.models }
 }
 
-export default connect(mapStateToProps, {addModel})(App);
+export default connect(mapStateToProps, { addModel })(App);
